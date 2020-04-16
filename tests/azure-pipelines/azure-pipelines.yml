@@ -88,7 +88,7 @@ stages:
         python_version: '3.7'
         cxx_standard: '14'
         target: 'all test'
-    - script: cp build/cityflow* . && python3.7 -m unittest discover tests/python/
+    - script: cp build/rtc* . && python3.7 -m unittest discover tests/python/
       displayName: Python tests
 
   - job: "osx"
@@ -101,5 +101,5 @@ stages:
           python_version: '3'
           cxx_standard: '14'
           target: 'all test'
-      - script: cp build/cityflow* . && python3 -m unittest discover tests/python/
+      - script: cp build/rtc* . && python3 -m unittest discover tests/python/
         displayName: Python tests

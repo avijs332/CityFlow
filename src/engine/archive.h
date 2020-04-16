@@ -7,7 +7,7 @@
 
 #include <deque>
 
-namespace CityFlow {
+namespace RTC {
     class Engine;
     class Flow;
     class Vehicle;

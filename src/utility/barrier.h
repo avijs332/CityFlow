@@ -6,7 +6,7 @@
 #include <iostream>
 #include <thread>
 
-namespace CityFlow {
+namespace RTC {
     class Barrier {
     public:
         Barrier(std::size_t nb_threads) : m_threads(nb_threads), currCounter(&counter[0]) {

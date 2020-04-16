@@ -6,7 +6,7 @@ Quick Start
 Installation
 ------------
 
-If you have not installed CityFlow yet, :ref:`install` is a simple guide for installation.
+If you have not installed RTC yet, :ref:`install` is a simple guide for installation.
 
 
 Create Engine
@@ -14,8 +14,8 @@ Create Engine
 
 .. code-block:: python
     
-    import cityflow
-    eng = cityflow.Engine(config_path, thread_num=1)
+    import rtc
+    eng = rtc.Engine(config_path, thread_num=1)
 
 
 - ``config_path``: path for config file.

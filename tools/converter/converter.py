@@ -72,7 +72,7 @@ else:
 def parse_args():
     parser = argparse.ArgumentParser()
     parser.add_argument("--sumonet", type=str,default='atlanta_sumo.net.xml')
-    parser.add_argument("--cityflownet", type=str,default='atlanta_cityflow.json')
+    parser.add_argument("--rtcnet", type=str,default='atlanta_rtc.json')
     return parser.parse_args()
 
 U_TURN_AS = "turn_left"
@@ -102,14 +102,14 @@ def process_edge(edge):
                 direction = get_direction_fron_connection(outgoing)
                 to_lane = outgoing.getToLane()
                 # marky,add to_lane
-                new_lane._cityflow_lane_id = f'{lane.getID()}|{to_lane.getID()}|{direction}'
-                new_lane._cityflow_lane_inx = inx
+                new_lane._rtc_lane_id = f'{lane.getID()}|{to_lane.getID()}|{direction}'
+                new_lane._rtc_lane_inx = inx
                 new_lane._direction = direction
                 lanes.append(new_lane)
             if len(outgoing_list) == 0:
                 new_lane = copy.copy(lane)
-                new_lane._cityflow_lane_id = f'{lane.getID()}'
-                new_lane._cityflow_lane_inx = inx
+                new_lane._rtc_lane_id = f'{lane.getID()}'
+                new_lane._rtc_lane_inx = inx
                 new_lane._direction = 'go_end'
                 lanes.append(new_lane)
     else:
@@ -119,31 +119,31 @@ def process_edge(edge):
                 new_lane = copy.copy(lane)
                 direction = get_direction_fron_connection(outgoing)
                 to_lane = outgoing.getToLane()
-                new_lane._cityflow_lane_id = f'{lane.getID()}|{to_lane.getID()}|{direction}'
+                new_lane._rtc_lane_id = f'{lane.getID()}|{to_lane.getID()}|{direction}'
                 new_lane._direction = direction
                 lanes.append(new_lane)
             if len(outgoing_list) == 0:
                 new_lane = copy.copy(lane)
-                new_lane._cityflow_lane_id = f'{lane.getID()}'
+                new_lane._rtc_lane_id = f'{lane.getID()}'
                 new_lane._direction = 'go_end'
                 lanes.append(new_lane)
-    edge._cityflow_lanes = lanes[::-1]
+    edge._rtc_lanes = lanes[::-1]
     return edge
 
 
 
 
-def _cityflow_get_lane_index_in_edge(lane, edge):
-    for i, _lane in enumerate(edge._cityflow_lanes):
-        if _lane._cityflow_lane_id == lane._cityflow_lane_id:
+def _rtc_get_lane_index_in_edge(lane, edge):
+    for i, _lane in enumerate(edge._rtc_lanes):
+        if _lane._rtc_lane_id == lane._rtc_lane_id:
             return i
     raise Exception('lane in edge not found')
 
-def _cityflow_get_lane_index_in_edge_cor(lane, edge):
-    ## i = lane._cityflow_lane_id.split('|')[0]
-    for i, _lane in enumerate(edge._cityflow_lanes):
-        if _lane._cityflow_lane_id == lane._cityflow_lane_id:
-            return _lane._cityflow_lane_inx
+def _rtc_get_lane_index_in_edge_cor(lane, edge):
+    ## i = lane._rtc_lane_id.split('|')[0]
+    for i, _lane in enumerate(edge._rtc_lanes):
+        if _lane._rtc_lane_id == lane._rtc_lane_id:
+            return _lane._rtc_lane_inx
     raise Exception('lane in edge not found')
 
 
@@ -341,7 +341,7 @@ def node_to_intersection(node,tls_dict,edge_dict):
             roadLink["type"] = U_TURN_AS
 
 
-        for start_lane in reversed(start_road._cityflow_lanes):
+        for start_lane in reversed(start_road._rtc_lanes):
             if start_lane._direction != raw_roadlink_type:
                 continue
             ## TODO lane enumerate
@@ -352,21 +352,21 @@ def node_to_intersection(node,tls_dict,edge_dict):
                     end_point = end_lane.getShape()[0]
                     end_point = point_tuple_to_dict(end_point)
                     path = {
-                        "startLaneIndex": _cityflow_get_lane_index_in_edge_cor(start_lane, start_road),
+                        "startLaneIndex": _rtc_get_lane_index_in_edge_cor(start_lane, start_road),
                         "endLaneIndex": end_inx,
                         # ytodo: 或许改为起始lane结束点，路口点，结束lane起始点。
                         "points": [start_point, end_point]  # warning 飞行模式
                     }
                     roadLink["laneLinks"].append(path)
             else:
-                for end_lane in end_road._cityflow_lanes:
+                for end_lane in end_road._rtc_lanes:
                     start_point = start_lane.getShape()[-1]
                     start_point = point_tuple_to_dict(start_point)
                     end_point = end_lane.getShape()[0]
                     end_point = point_tuple_to_dict(end_point)
                     path = {
-                        "startLaneIndex": _cityflow_get_lane_index_in_edge(start_lane, start_road),
-                        "endLaneIndex": _cityflow_get_lane_index_in_edge(end_lane, end_road),
+                        "startLaneIndex": _rtc_get_lane_index_in_edge(start_lane, start_road),
+                        "endLaneIndex": _rtc_get_lane_index_in_edge(end_lane, end_road),
                         "points": [start_point, end_point]  # warning 飞行模式
                     }
                     roadLink["laneLinks"].append(path)
@@ -488,7 +488,7 @@ def get_final_roads(net):
             for _v in edge._lanes:
                 road["lanes"].append(lane_template)
         else:
-            for _v in edge._cityflow_lanes:
+            for _v in edge._rtc_lanes:
                 road["lanes"].append(lane_template)
         final_roads.append(road)
     return final_roads
@@ -524,7 +524,7 @@ def main(args):
         "roads": final_roads
     }
 
-    f = open(args.cityflownet, 'w')
+    f = open(args.rtcnet, 'w')
     json.dump(result, f, indent=2)
     f.close()
 

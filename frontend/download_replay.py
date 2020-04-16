@@ -2,7 +2,7 @@ import os
 from urllib.request import urlretrieve
 
 files = ["replay.txt", "roadnet.json"]
-repo_url = "https://github.com/cityflow-project/data/raw/master/frontend/replay/"
+repo_url = "https://github.com/rtc-project/data/raw/master/frontend/replay/"
 
 folder = "replay"
 if __name__ == '__main__':
@@ -14,6 +14,6 @@ if __name__ == '__main__':
         if os.path.exists(folder + "/" + file_name):
             print(file_name + " found.")
         else:
-            print("retrieving %s from cityflow-project/data/frontend/replay" % file_name)
+            print("retrieving %s from rtc-project/data/frontend/replay" % file_name)
             urlretrieve(repo_url + file_name, folder + "/" + file_name)
             print("done!")

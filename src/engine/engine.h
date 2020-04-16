@@ -11,9 +11,10 @@
 #include <set>
 #include <random>
 #include <fstream>
+#include <vector>
 
 
-namespace CityFlow {
+namespace RTC {
 
     class Engine {
         friend class Archive;
@@ -155,6 +156,8 @@ namespace CityFlow {
         std::map<std::string, double> getVehicleDistance() const;
 
         std::map<std::string, std::pair<std::pair<int, int>, std::pair<int,int>>> getVehicleLocation() const;
+
+        std::vector<std::vector<std::pair<double, double>>> getVehicleCorners() const;
 
         std::string getLeader(const std::string &vehicleId) const;
 

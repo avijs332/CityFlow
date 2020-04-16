@@ -9,7 +9,7 @@
 #include <utility>
 #include <memory>
 
-namespace CityFlow {
+namespace RTC {
     class Lane;
 
     class LaneLink;
@@ -223,6 +223,9 @@ namespace CityFlow {
         inline int getPriority() const { return priority; }
 
         std::pair<Point, Point> getCurPos() const;
+
+        std::pair<std::pair<Point, Point>,std::pair<Point, Point>> getCorners() const;
+
 
         ControlInfo getNextSpeed(double interval);
 

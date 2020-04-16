@@ -3,7 +3,7 @@
 
 #include <iostream>
 
-namespace CityFlow{
+namespace RTC{
     LaneChange::LaneChange(Vehicle * vehicle, const LaneChange &other)
         : lastDir(other.lastDir), signalRecv(other.signalRecv),
           vehicle(vehicle), targetLeader(other.targetLeader), targetFollower(other.targetFollower), // useless in archive

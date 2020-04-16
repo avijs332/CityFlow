@@ -2,7 +2,7 @@
 #include "engine/engine.h"
 
 
-namespace CityFlow {
+namespace RTC {
     void Flow::nextStep(double timeInterval) {
         if (!valid) return;
         if (endTime != -1 && currentTime > endTime) return;

@@ -1,7 +1,7 @@
 #include "roadnet/trafficlight.h"
 #include "roadnet/roadnet.h"
 
-namespace CityFlow {
+namespace RTC {
 
     void TrafficLight::init(int initPhaseIndex) {
         if (intersection->isVirtual)

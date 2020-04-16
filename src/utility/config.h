@@ -1,7 +1,7 @@
 #ifndef CITYFLOW_CONFIG_H
 #define CITYFLOW_CONFIG_H
 
-namespace CityFlow {
+namespace RTC {
     const int MAX_NUM_CARS_ON_SEGMENT = 10;
 }
 

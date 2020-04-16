@@ -1,7 +1,7 @@
 parameters:
   python_version: '3'
   cxx_standard: '14'
-  target: 'cityflow'
+  target: 'rtc'
   compile_options: '-Werror'
 
 steps:
@@ -15,7 +15,7 @@ steps:
         ..
     displayName: CMake
   - script: cd build && make ${{ parameters.target }}
-    displayName: Compile (and test) CityFlow
+    displayName: Compile (and test) RTC
   - script: cat build/Testing/Temporary/LastTest.log
     displayName: Output test log
     condition: and(failed(), endsWith('${{ parameters.target }}', 'test'))

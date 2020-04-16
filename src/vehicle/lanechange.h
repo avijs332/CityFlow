@@ -5,7 +5,7 @@
 
 #include <memory>
 
-namespace CityFlow {
+namespace RTC {
 
     class Vehicle;
     class Lane;

@@ -10,7 +10,7 @@
 #include <typeinfo>
 #include <stdexcept>
 
-namespace CityFlow {
+namespace RTC {
 
     constexpr double eps = 1e-8;
     constexpr size_t JSON_BUFFER_SIZE = 65536;

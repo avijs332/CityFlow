@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.0)
-project(cityflow)
+project(rtc)
 
 set(CMAKE_CXX_STANDARD "11" CACHE STRING "")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -DRAPIDJSON_HAS_STDSTRING=1")
@@ -68,7 +68,7 @@ if (${CMAKE_BUILD_TYPE} STREQUAL Debug)
     add_subdirectory(tools/debug)
 endif()
 
-pybind11_add_module(${PROJECT_NAME} MODULE src/cityflow.cpp)
+pybind11_add_module(${PROJECT_NAME} MODULE src/rtc.cpp)
 target_link_libraries(${PROJECT_NAME} PRIVATE ${PROJECT_LIB_NAME})
 if(VERSION)
     target_compile_definitions(${PROJECT_NAME} PRIVATE -DVERSION=${VERSION})

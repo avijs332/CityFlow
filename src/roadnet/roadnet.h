@@ -9,7 +9,7 @@
 #include <queue>
 #include <iostream>
 
-namespace CityFlow {
+namespace RTC {
     class RoadNet;
 
     class Intersection;

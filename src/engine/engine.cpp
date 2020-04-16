@@ -8,7 +8,7 @@
 #include <memory>
 
 #include <ctime>
-namespace CityFlow {
+namespace RTC {
 
     Engine::Engine(const std::string &configFile, int threadNum) : threadNum(threadNum), startBarrier(threadNum + 1),
                                                                    endBarrier(threadNum + 1) {
@@ -371,9 +371,9 @@ namespace CityFlow {
         endBarrier.wait();
     }
 
-    void Engine::threadPlanLaneChange(const std::set<CityFlow::Vehicle *> &vehicles) {
+    void Engine::threadPlanLaneChange(const std::set<RTC::Vehicle *> &vehicles) {
         startBarrier.wait();
-        std::vector<CityFlow::Vehicle *> buffer;
+        std::vector<RTC::Vehicle *> buffer;
 
         for (auto vehicle : vehicles)
             if (vehicle->isRunning() && vehicle->isReal()) {
@@ -681,6 +681,42 @@ namespace CityFlow {
         }
         return ret;
     }
+
+    std::vector<std::vector<std::pair<double, double>>> Engine::getVehicleCorners() const
+    {
+        std::vector<std::vector<std::pair<double, double>>> ret;
+        for(const Vehicle* vehicle : getRunningVehicles())
+        {
+            auto curpos = vehicle->getCorners();
+            std::vector<std::pair<double, double>> pos;
+
+            std::pair<double,double> pos1,pos2;
+            std::pair<double,double> pos3,pos4;
+
+            pos1.first = curpos.first.first.x;
+            pos1.second = curpos.first.first.y; 
+            
+            pos2.first = curpos.first.second.x;
+            pos2.second = curpos.first.second.y;
+
+            pos3.first = curpos.second.first.x;
+            pos3.second = curpos.second.first.y;
+
+            pos4.first = curpos.second.second.x;
+            pos4.second = curpos.second.second.y;
+
+            pos.push_back(pos1);
+            pos.push_back(pos2);
+            pos.push_back(pos3);
+            pos.push_back(pos4);
+
+            ret.push_back(pos);
+        }
+        return ret;
+
+    }
+
+    
 
     std::map<std::string, double> Engine::getVehicleDistance() const {
         std::map<std::string, double> ret;

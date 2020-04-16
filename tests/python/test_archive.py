@@ -1,5 +1,5 @@
 import unittest
-import cityflow
+import rtc
 import time
 
 
@@ -24,7 +24,7 @@ class TestArchive(unittest.TestCase):
 
     def test_save_and_load(self):
         """Single save and single load with single threading engine"""
-        engine = cityflow.Engine(config_file=self.config_file, thread_num=1)
+        engine = rtc.Engine(config_file=self.config_file, thread_num=1)
         self.run_steps(engine, self.period)
 
         start_time = time.time()
@@ -45,7 +45,7 @@ class TestArchive(unittest.TestCase):
 
     def test_save_and_load_multithread(self):
         """Single save and single load with multi-threading engine"""
-        engine = cityflow.Engine(config_file=self.config_file, thread_num=4)
+        engine = rtc.Engine(config_file=self.config_file, thread_num=4)
 
         self.run_steps(engine, self.period)
         archive = engine.snapshot()
@@ -60,7 +60,7 @@ class TestArchive(unittest.TestCase):
 
     def test_save_and_multi_load(self):
         """Multiple saves and multiple loads with multi-threading engine"""
-        engine = cityflow.Engine(config_file=self.config_file, thread_num=4)
+        engine = rtc.Engine(config_file=self.config_file, thread_num=4)
 
         self.run_steps(engine, self.period)
         archive = engine.snapshot()
@@ -76,7 +76,7 @@ class TestArchive(unittest.TestCase):
 
     def test_multi_save_and_multi_load(self):
         """ Multiple save and multiple loads with multi-threading engine") """
-        engine = cityflow.Engine(config_file=self.config_file, thread_num=4)
+        engine = rtc.Engine(config_file=self.config_file, thread_num=4)
         archives, records = [], []
         repeats = 5
 
@@ -94,7 +94,7 @@ class TestArchive(unittest.TestCase):
 
     def test_save_to_file(self):
         """ Disk IO test """
-        engine = cityflow.Engine(config_file=self.config_file, thread_num=4)
+        engine = rtc.Engine(config_file=self.config_file, thread_num=4)
         self.run_steps(engine, self.period)
         engine.snapshot().dump("save.json")
         self.run_steps(engine, self.period)
@@ -105,7 +105,7 @@ class TestArchive(unittest.TestCase):
 
     def test_multi_save_to_file(self):
         """ Disk IO test 2"""
-        engine = cityflow.Engine(config_file=self.config_file, thread_num=4)
+        engine = rtc.Engine(config_file=self.config_file, thread_num=4)
         for i in range(2):
             self.run_steps(engine, self.period)
             engine.snapshot().dump("save.json")

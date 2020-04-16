@@ -5,7 +5,7 @@
 #include <limits>
 #include <random>
 
-namespace CityFlow {
+namespace RTC {
 
     Vehicle::ControllerInfo::ControllerInfo(Vehicle *vehicle, std::shared_ptr<const Route> route, std::mt19937 *rnd)
         : router(vehicle, route, rnd) {
@@ -152,6 +152,41 @@ namespace CityFlow {
         tail.y -= direction.y * vehicleInfo.len;
         ret.second = tail;
         return ret;
+    }
+    std::pair<std::pair<Point, Point>,std::pair<Point, Point>> Vehicle::getCorners() const
+    {
+        std::pair<Point,Point> sideOne;
+        std::pair<Point,Point> sideTwo;
+        std::pair<std::pair<Point, Point>,std::pair<Point, Point>> ret;
+
+        sideOne.first = controllerInfo.drivable->getPointByDistance(controllerInfo.dis); //getting one corner
+        Point direction = controllerInfo.drivable->getDirectionByDistance(controllerInfo.dis);
+        Point perp_direction = Point(direction.y, -direction.x);
+        
+        
+        Point otherSide(sideOne.first);
+        otherSide.x -= perp_direction.x * vehicleInfo.width;
+        otherSide.y -= perp_direction.y * vehicleInfo.width;
+    
+
+        sideTwo.first = otherSide;
+
+        
+        Point tail(sideOne.first);
+        tail.x -= direction.x * vehicleInfo.len;    // calc of other corner using length of car and first corner
+        tail.y -= direction.y * vehicleInfo.len;
+        sideOne.second = tail;
+
+
+        Point otherTail(sideTwo.first);
+        otherTail.x -= direction.x * vehicleInfo.len; //// calc of last corner using length of car and second corner
+        otherTail.y -= direction.y * vehicleInfo.len;
+        sideTwo.second = otherTail;
+
+        ret.first = sideOne;
+        ret.second = sideTwo;
+        return ret;
+
     }
 
     void Vehicle::updateLeaderAndGap(Vehicle *leader) {

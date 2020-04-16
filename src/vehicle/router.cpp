@@ -7,7 +7,7 @@
 #include <queue>
 #include <set>
 
-namespace CityFlow {
+namespace RTC {
     Router::Router(const Router &other) : vehicle(other.vehicle), route(other.route),
                                           rnd(other.rnd) {
         iCurRoad = route.begin();

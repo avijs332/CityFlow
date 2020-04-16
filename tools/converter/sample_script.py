@@ -1,4 +1,4 @@
-import cityflow
+import rtc
 import pandas as pd
 import os
 import csv
@@ -22,7 +22,7 @@ config_path = os.path.join('data', 'config_engine.json')
 with open(config_path, 'w') as config_file:
     json.dump(config_dict, config_file, indent=4)
 
-eng = cityflow.Engine(config_path,thread_num=1)
+eng = rtc.Engine(config_path,thread_num=1)
 
 for step in range(500):
     print(step)

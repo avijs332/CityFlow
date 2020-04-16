@@ -54,17 +54,17 @@ class CMakeBuild(build_ext):
         if not os.path.exists(self.build_temp):
             os.makedirs(self.build_temp)
         subprocess.check_call(['cmake', ext.sourcedir] + cmake_args, cwd=self.build_temp, env=env)
-        subprocess.check_call(['cmake', '--build', '.', '--target', 'cityflow'] + build_args, cwd=self.build_temp)
+        subprocess.check_call(['cmake', '--build', '.', '--target', 'rtc'] + build_args, cwd=self.build_temp)
 
 
 setup(
-    name='CityFlow',
+    name='RTC',
     version='0.1',
     author='Huichu Zhang',
     author_email='zhc@apex.sjtu.edu.cn',
-    description='CityFlow: A Multi-Agent Reinforcement Learning Environment for Large Scale City Traffic Scenario',
+    description='RTC: A Multi-Agent Reinforcement Learning Environment for Large Scale City Traffic Scenario',
     long_description='',
-    ext_modules=[CMakeExtension('cityflow')],
+    ext_modules=[CMakeExtension('rtc')],
     cmdclass=dict(build_ext=CMakeBuild),
     zip_safe=False
 )

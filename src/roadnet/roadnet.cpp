@@ -11,7 +11,7 @@
 using std::map;
 using std::string;
 
-namespace CityFlow {
+namespace RTC {
     static double getLengthOfPoints(const std::vector<Point> &points);
 
     static Point getPointByDistance(const std::vector<Point> &points, double dis) {
@@ -390,7 +390,7 @@ namespace CityFlow {
     }
 
     Point Drivable::getPointByDistance(double dis) const {
-        return CityFlow::getPointByDistance(points, dis);
+        return RTC::getPointByDistance(points, dis);
     }
 
     Point Drivable::getDirectionByDistance(double dis) const {

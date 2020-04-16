@@ -1,5 +1,5 @@
 import unittest
-import cityflow
+import rtc
 
 
 class TestAPI(unittest.TestCase):
@@ -9,7 +9,7 @@ class TestAPI(unittest.TestCase):
 
     def test_data_api(self):
         """Single save and single load with single threading engine"""
-        eng = cityflow.Engine(config_file=self.config_file, thread_num=1)
+        eng = rtc.Engine(config_file=self.config_file, thread_num=1)
 
         for _ in range(self.period):
             eng.next_step()
@@ -28,7 +28,7 @@ class TestAPI(unittest.TestCase):
 
     def test_set_replay(self):
         """change replay path on the fly"""
-        eng = cityflow.Engine(config_file=self.config_file, thread_num=1)
+        eng = rtc.Engine(config_file=self.config_file, thread_num=1)
 
         for _ in range(100):
             eng.next_step()

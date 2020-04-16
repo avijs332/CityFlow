@@ -3,7 +3,7 @@
 #include <cstdlib>
 #include <gtest/gtest.h>
 
-using namespace CityFlow;
+using namespace RTC;
 
 size_t threads = std::min(std::thread::hardware_concurrency(), 4u);
 std::string configFile = "examples/config.json";

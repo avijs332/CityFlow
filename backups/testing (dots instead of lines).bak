@@ -1,0 +1,176 @@
+import rtc
+import matplotlib.pyplot as plt
+import seaborn as sns
+import numpy as np
+import argparse
+from enum import Enum 
+import itertools
+import matplotlib.pyplot as plt
+from mpl_toolkits.axes_grid1 import host_subplot
+import mpl_toolkits.axisartist as AA
+import numpy
+
+fig = plt.figure()
+plt.xlabel('Width')
+plt.ylabel('Height')
+
+
+
+
+
+
+collisions_in_step = []
+CAR_WIDTH = 2
+CAR_LEN = 5
+
+def findCarDirection(x1, y1, x2, y2):
+    direction = ""
+    if(x1 == x2):
+        if(y1 > y2):
+            direction = "NORTH"
+        else:
+            direction = "SOUTH"
+    else:
+        if (x1 > x2):
+            direction = "EAST"
+        else:
+            direction = "WEST"
+    
+    return direction
+
+
+def findCollisions(locations):
+    locations_list = locations
+    collisions_in_step = list([x for x in locations_list if locations_list.count(x) > 1])
+
+    return collisions_in_step
+    # print(len(collisions_in_step))
+
+
+def get_coord_mid(num1,num2):
+    return (num1+num2)/2
+
+def get_mid_point(x1,x2,y1,y2):
+    return (get_coord_mid(x1,x2),get_coord_mid(y1,y2))
+
+def get_mid(p1, p2):
+    return (get_mid_point(p1[0], p2[0], p1[1], p2[1]))
+
+def get_more_points(points):
+    ret_points = points
+    mid_point = ()
+    clear_tup = []
+    
+    #add all points between p1 and p2 (included)
+    #mid_point = get_mid_point(points[0][0],points[1][0],points[0][1],points[1][1])
+    mid_point = get_mid(points[0], points[1])
+    ret_points.append(mid_point)
+    ret_points.append(get_mid_point(mid_point[0],points[0][0],mid_point[1],points[0][1])) #add mid between p1 and midpoint
+    ret_points.append(get_mid_point(mid_point[0],points[1][0],mid_point[1],points[1][1])) #add mid between p2 and midpoint
+
+    mid_point = tuple(clear_tup)#clear the middle point
+
+    #add all points between p3 and p4 (included)
+    mid_point = get_mid_point(points[2][0],points[3][0],points[2][1],points[3][1])
+    ret_points.append(mid_point)
+    ret_points.append(get_mid_point(mid_point[0],points[2][0],mid_point[1],points[2][1])) #add mid between p3 and midpoint
+    ret_points.append(get_mid_point(mid_point[0],points[3][0],mid_point[1],points[3][1])) #add mid between p4 and midpoint
+
+    mid_point = tuple(clear_tup)#clear the middle point
+
+    #add all points between p1 and p3 (included)
+    mid_point = get_mid_point(points[0][0],points[2][0],points[0][1],points[2][1])
+    ret_points.append(mid_point)
+    ret_points.append(get_mid_point(mid_point[0],points[2][0],mid_point[1],points[2][1])) #add mid between p3 and midpoint
+    ret_points.append(get_mid_point(mid_point[0],points[0][0],mid_point[1],points[0][1])) #add mid between p1 and midpoint
+
+    mid_point = tuple(clear_tup)#clear the middle point
+
+    #add all points between p2 and p4 (included)
+    mid_point = get_mid(points[1], points[3])
+    ret_points.append(mid_point)
+    ret_points.append(get_mid_point(mid_point[0],points[1][0],mid_point[1],points[1][1])) #add mid between p2 and midpoint
+    ret_points.append(get_mid_point(mid_point[0],points[3][0],mid_point[1],points[3][1])) #add mid between p4 and midpoint
+
+    return ret_points
+
+def plot_seaborn(array_counter, array_score):
+    sns.set(color_codes=True)
+    ax = sns.regplot(
+        np.array([array_counter])[0],
+        np.array([array_score])[0],
+        color="b",
+        x_jitter=.1,
+        line_kws={'color':'green'}
+    )
+    ax.set(xlabel='runs', ylabel='collisions')
+    plt.show()
+
+def r_get_points(orig, n):
+    if not n:
+        return orig
+    else:
+        li = iter(orig)
+        this = next(li)
+        result = [this]
+        for nxt in li:
+            result.extend([get_mid(this, nxt), nxt])
+            this = nxt
+        return r_get_points(result, n-1)
+
+def check_rect_collision(p, x, y, w, h): 
+    if p.x >= x and p.x <= x+w and p.y >= y and p.y <= y+h:
+        # collision between p and rectangle
+        return True
+    return False
+
+def r_get_more_points(car):
+    ret = []
+    ret.extend(r_get_points([car[0], car[1]], 3)) #between points 1, 2 - 3 levels
+    ret.extend(r_get_points([car[3], car[2]], 3)) #between points 4, 3 - 3 levels
+    ret.extend(r_get_points([car[0], car[2]], 2)) #between points 1, 3 - 2 levels
+    ret.extend(r_get_points([car[3], car[1]], 2)) #between points 4, 2 - 2 levels
+
+    return ret
+
+################################################################################
+eng = rtc.Engine("examples/config.json", thread_num=1)
+
+score_plot = counter_plot = []
+
+for i in range(29):
+    print("\n\n#############################")
+    print("Step ", i)
+    #print(eng.get_vehicle_corners())
+    eng.next_step()
+
+corners = eng.get_vehicle_corners()
+
+for i in range(len(corners)):
+    corners[i] = r_get_more_points(corners[i])
+    corners[i] = sorted(set(corners[i])) #sort and remove duplicates
+    # for coordinate in vehicle:
+    #     plt.plot(coordinate[0], coordinate[1], "ro")
+
+for vehicle in corners:
+    for coordinate in vehicle:
+        plt.plot(coordinate[0], coordinate[1], "ro")
+        
+flattened = [item for sublist in corners for item in sublist] #flatten list
+for coordinate in findCollisions(flattened):
+    plt.plot(coordinate[0], coordinate[1], "bo")
+
+
+
+plt.grid()
+plt.show()
+
+#     counter_plot.append(0)
+
+# 
+# )
+
+# plot_seaborn(counter_plot, score_plot)   
+
+
+  

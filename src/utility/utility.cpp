@@ -10,7 +10,7 @@
 #include "rapidjson/document.h"
 #include "rapidjson/error/en.h"
 
-namespace CityFlow {
+namespace RTC {
 
     Point operator*(const Point &A, double k) {
         return {A.x * k, A.y * k};

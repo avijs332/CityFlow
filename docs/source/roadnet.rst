@@ -3,7 +3,7 @@
 Roadnet File Format
 ===================
 
-Roadnet file defines the roadnet structure. CityFlow's roadnet mainly consists of intersections and roads (see them as nodes and edges of a graph). 
+Roadnet file defines the roadnet structure. RTC's roadnet mainly consists of intersections and roads (see them as nodes and edges of a graph). 
 
 - *Road* represents a directional road from one *intersection* to another *intersection* with road-specific properties. A *road* may contain multiple *lanes*. 
 - *Intersection* is where roads intersects. An *intersection* contains several *roadlinks*. Each *roadlink* connects two roads of the intersection and can be controlled by traffic signals. 
@@ -114,16 +114,16 @@ Sample ``roadnet.json`` with explanation.
   }
 
 
-.. figure:: https://github.com/cityflow-project/data/raw/master/docs/images/roadnet.jpg
+.. figure:: https://github.com/rtc-project/data/raw/master/docs/images/roadnet.jpg
     :align: center
 
     Illustration of a 1x2 grid roadnet.
 
 
-You can convert SUMO roadnet files into CityFlow format using tools/Converter/converter.py
+You can convert SUMO roadnet files into RTC format using tools/Converter/converter.py
 
-For example, the following code converts a sumo roadnet file, atlanta.net.xml, to CityFlow format.
+For example, the following code converts a sumo roadnet file, atlanta.net.xml, to RTC format.
 
 .. code-block:: shell
 
-    python converter.py --sumonet atlanta_sumo.net.xml --cityflownet atlanta_cityflow.json
+    python converter.py --sumonet atlanta_sumo.net.xml --rtcnet atlanta_rtc.json

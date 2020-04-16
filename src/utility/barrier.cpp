@@ -1,6 +1,6 @@
 #include "barrier.h"
 
-namespace CityFlow {
+namespace RTC {
     void Barrier::wait() {
         std::unique_lock<std::mutex> lock(m_mutex);
         assert(0u != *currCounter);

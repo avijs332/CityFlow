@@ -6,7 +6,7 @@
 #include <cstdlib>
 #include <ctime>
 
-using namespace CityFlow;
+using namespace RTC;
 
 int main(int argc, char const *argv[]) {
     optionparser::OptionParser parser;
@@ -33,7 +33,7 @@ int main(int argc, char const *argv[]) {
 
     parser.eat_arguments(argc, argv);
     //std::string configFile = parser.get_value<std::string>("configFile");
-    std::string configFile = "/Users/itay/CityFlow/examples/config.json";
+    std::string configFile = "/Users/itay/RTC/examples/config.json";
     std::cout << configFile << std::endl;
     bool verbose = parser.get_value<bool>("verbose");
     size_t totalStep = parser.get_value<int>("totalStep");

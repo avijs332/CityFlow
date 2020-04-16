@@ -4,7 +4,7 @@
 #include <sstream>
 #include <string>
 
-namespace CityFlow {
+namespace RTC {
 
     Archive::Archive(const Engine &engine)
     : step(engine.step), activeVehicleCount(engine.activeVehicleCount), rnd(engine.rnd),

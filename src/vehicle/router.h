@@ -7,7 +7,7 @@
 #include <random>
 #include <memory>
 
-namespace CityFlow {
+namespace RTC {
     class Road;
     class Drivable;
     class Route;

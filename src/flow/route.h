@@ -3,7 +3,7 @@
 
 #include <vector>
 
-namespace CityFlow {
+namespace RTC {
     class Road;
 
     class Route {
